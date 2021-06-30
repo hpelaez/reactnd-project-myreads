@@ -15,7 +15,6 @@ class Book extends Component {
         this.setState({value: event.target.value});
     }
 
-
     render() {
 
         const { book } = this.props;

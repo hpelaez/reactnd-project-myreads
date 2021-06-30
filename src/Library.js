@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Book from './Book';
 import Bookshelf from './Bookshelf';
 
 class Library extends Component {
@@ -8,7 +7,20 @@ class Library extends Component {
 
         const { books } = this.props;
 
-        console.log(books);
+        const shelves = [
+            {
+                title: 'Currently Reading',
+                id: 'currentlyReading'
+              },
+              {
+                title: 'Want To Read',
+                id: 'wantToRead'
+              },
+              {
+                title: 'Read',
+                id: 'read'
+              }
+        ];
 
         return (
             <div className="list-books">
@@ -17,38 +29,14 @@ class Library extends Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf title="Currently Reading" book={
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                            book.shelf === 'currentlyReading' &&
-                            <li key={book.id}> 
-                                <Book book={book}/>
-                            </li>
-                        ))}
-                    </ol>
-                } />
-                    
-                <Bookshelf title="Want to Read" book={
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                            book.shelf === 'wantToRead' &&
-                            <li key={book.id}> 
-                                <Book book={book}/>
-                            </li>
-                        ))}
-                    </ol>
-                } /> 
-
-                <Bookshelf title="Read" book={
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                            book.shelf === 'read' &&
-                            <li key={book.id}> 
-                                <Book book={book}/>
-                            </li>
-                        ))}
-                    </ol>
-                } /> 
+                  {shelves.map(shelve => (
+                      <Bookshelf 
+                        title={shelve.title} 
+                        key={shelve.id} 
+                        id={shelve.id}
+                        data={books}
+                    />
+                  ))}
               </div>
             </div>
             <div className="open-search">
