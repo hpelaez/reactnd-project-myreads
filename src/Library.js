@@ -5,7 +5,7 @@ import Bookshelf from './Bookshelf';
 class Library extends Component {
     render() {
 
-        const { books } = this.props;
+        const { books, onUpdateShelf } = this.props;
 
         const shelves = [
             {
@@ -29,12 +29,13 @@ class Library extends Component {
             </div>
             <div className="list-books-content">
               <div>
-                  {shelves.map(shelve => (
+                  {shelves.map(shelf => (
                       <Bookshelf 
-                        title={shelve.title} 
-                        key={shelve.id} 
-                        id={shelve.id}
+                        title={shelf.title} 
+                        key={shelf.id} 
+                        shelf={shelf.id}
                         data={books}
+                        onUpdateShelf={onUpdateShelf}
                     />
                   ))}
               </div>

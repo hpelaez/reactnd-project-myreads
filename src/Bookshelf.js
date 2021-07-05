@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Book from './Book';
 
-function Bookshelf(props) {
+class Bookshelf extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
-    const { title, id, data } = props;
+    render() {
 
-    return (
-        <div className="bookshelf">
-            <h2 className="bookshelf-title">{title}</h2>
-            <div className="bookshelf-books">
-                <ol className="books-grid">
-                    {data.map(book => (
-                        book.shelf === id &&
-                        <li key={book.id}> 
-                            <Book book={book}/>
-                        </li>
-                    ))}
-                </ol>
+        const { title, shelf, data, onUpdateShelf } = this.props;
+
+        return (
+            <div className="bookshelf">     
+                <h2 className="bookshelf-title">{title}</h2>
+                <div className="bookshelf-books">
+                    <ol className="books-grid">
+                        {data.filter((item) => item.shelf === shelf).map((book) => (
+                            <li key={book.id}> 
+                                <Book 
+                                    book={book}
+                                    shelf={shelf}
+                                    onShelfChange={onUpdateShelf}
+                                />
+                            </li>
+                        ))}
+                    </ol>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default Bookshelf;

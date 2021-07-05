@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Book from './Book';
+import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
-    static propTypes = {
-        books: PropTypes.array.isRequired,
-    }
-
     state = {
-        search: ''
+        search: '',
+        filteredBooks: []
     }
 
     UpdateQuery = (value) => {
-        this.setState({ search: value })
+        BooksAPI.search(value)
+            .then((data) => { 
+                console.log(data)
+                this.setState({ search: value, filteredBooks: data })
+            }, (error) => { console.log(error) })
+                
     }
 
     render() {
-        const { books } = this.props;
-        const { search } = this.state;
+        const { onUpdateShelf } = this.props;
+        const { search, filteredBooks } = this.state;
 
-        const showingBooks = search === ''
+        const showingBooks = filteredBooks === undefined || search === ''
             ? []
-            : books.filter((c) => (
-                c.title.toLowerCase().includes(search.toLowerCase())
-            ))
+            : filteredBooks.filter((book) => 
+                book.title.toLowerCase().indexOf(search.toLowerCase()) > -1
+            )
 
         return (
             <div className="search-books">
@@ -43,7 +45,10 @@ class SearchBooks extends Component {
                     <ol className="books-grid">
                         {showingBooks.map((book) => (
                             <li key={book.id}>
-                                <Book book={book}/>
+                                <Book 
+                                    book={book} 
+                                    onShelfChange={onUpdateShelf}
+                                />
                             </li>
                         ))}
                     </ol>

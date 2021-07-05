@@ -19,17 +19,28 @@ class BooksApp extends React.Component {
       })
   }
 
+  handleShelfChange(book, shelf) {
+    BooksAPI.update(book, shelf)
+      .then((data) => {
+        window.location.reload(false);
+      })
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
           <Library 
             books={this.state.books}
+            onUpdateShelf={(book, shelf) => {
+              this.handleShelfChange(book, shelf)
+            }}
           />
         )} />
         <Route path='/search' render={() => (
           <SearchBooks 
             books={this.state.books}
+            onUpdateShelf={this.handleShelfChange}
           />
         )}/>
       </div>
