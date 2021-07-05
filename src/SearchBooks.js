@@ -12,7 +12,6 @@ class SearchBooks extends Component {
     UpdateQuery = (value) => {
         BooksAPI.search(value)
             .then((data) => { 
-                console.log(data)
                 this.setState({ search: value, filteredBooks: data })
             }, (error) => { console.log(error) })
                 
