@@ -15,11 +15,13 @@ class SearchBooks extends Component {
         
         if (query !== '') {
             BooksAPI.search(query)
-            .then((data) => { 
-                if(!data.error) {
-                  this.setState({ filteredBooks: data })
-                }
-            })
+                .then((data) => { 
+                    if(!data.error) {
+                        this.setState({ filteredBooks: data })
+                    } else {
+                        this.setState({ filteredBooks: [] })
+                    }
+                })
         }
     }
 
@@ -27,11 +29,7 @@ class SearchBooks extends Component {
         const { onUpdateShelf } = this.props;
         const { search, filteredBooks } = this.state;
 
-        const showingBooks = filteredBooks === undefined && search === ''
-            ? []
-            : filteredBooks.filter((book) => 
-                book.title.toLowerCase().indexOf(search.toLowerCase()) > -1
-            )
+        const showingBooks = search === '' ? [] : filteredBooks;
 
         return (
             <div className="search-books">
