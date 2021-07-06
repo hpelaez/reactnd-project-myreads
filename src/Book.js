@@ -1,4 +1,5 @@
 import React from 'react';
+import placeholder from './images/placeholder.png';
 
 function Book(props) {
  
@@ -10,16 +11,18 @@ function Book(props) {
         }
     }
 
+    const thumbnail = book.imageLinks !== undefined ? book.imageLinks.thumbnail : placeholder;
+
     return (
         <div className="book">
             <div className="book-top">
-                {book.imageLinks !== undefined && (
+                {book.imageLinks !== undefined  && (
                     <div 
                         className="book-cover" 
                         style={{ 
                             width: 128, 
                             height: 192, 
-                            backgroundImage: `url(${book.imageLinks.thumbnail})` 
+                            backgroundImage: `url(${thumbnail})` 
                         }}>
                     </div>
                 )}
