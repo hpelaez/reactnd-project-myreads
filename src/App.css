@@ -196,3 +196,20 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+/* Page 404 */
+.page-404 {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px;
+  text-align:center;
+}
+
+.page-404-link {
+  color: #2e7c31;
+  cursor: pointer;
+}
+
+.page-404-link:hover {
+  opacity: 0.8;
+}
