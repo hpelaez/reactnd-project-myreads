@@ -13,7 +13,7 @@ function Book(props) {
     return (
         <div className="book">
             <div className="book-top">
-                {book.imageLinks.thumbnail !== '' && (
+                {book.imageLinks !== undefined && (
                     <div 
                         className="book-cover" 
                         style={{ 
