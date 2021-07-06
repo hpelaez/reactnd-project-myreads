@@ -5,31 +5,29 @@ import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
     state = {
-        search: '',
+        query: '',
         filteredBooks: []
     }
 
-    UpdateQuery = (value) => {
-        let query = value.trim();
-        this.setState({ search: query });
+    UpdateQuery = (query) => {
+        this.setState({ query });
         
-        if (query !== '') {
-            BooksAPI.search(query)
-                .then((data) => { 
-                    if(!data.error) {
-                        this.setState({ filteredBooks: data })
-                    } else {
-                        this.setState({ filteredBooks: [] })
-                    }
-                })
+        if (query.length > 0) {
+            BooksAPI.search(query).then((data) => { 
+                if(!data.error) {
+                    this.setState({ filteredBooks: data });
+                } else {
+                    this.setState({ filteredBooks: [] });
+                }
+            })
+        } else {
+            this.setState({ filteredBooks: [] });
         }
     }
 
     render() {
-        const { onUpdateShelf } = this.props;
+        const { books, onUpdateShelf } = this.props;
         const { search, filteredBooks } = this.state;
-
-        const showingBooks = search === '' ? [] : filteredBooks;
 
         return (
             <div className="search-books">
@@ -46,14 +44,26 @@ class SearchBooks extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {showingBooks.map((book) => (
-                            <li key={book.id}>
-                                <Book 
-                                    book={book} 
-                                    onShelfChange={onUpdateShelf}
-                                />
-                            </li>
-                        ))}
+                        {filteredBooks.map((filtered) => {
+                            let bookOnShelf = books.find((book) =>
+                                book.id === filtered.id
+                            );
+                            if (bookOnShelf) {
+                                filtered.shelf = bookOnShelf.shelf;
+                            } else {
+                                filtered.shelf = 'none';
+                            }
+                    
+                            return (
+                                <li key={filtered.id}>
+                                    <Book 
+                                        book={filtered} 
+                                        shelf={filtered.shelf}
+                                        onShelfChange={onUpdateShelf}
+                                    />
+                                </li>
+                            )
+                        })}
                     </ol>
                 </div>
           </div>

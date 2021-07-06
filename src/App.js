@@ -10,20 +10,20 @@ class BooksApp extends React.Component {
     books: [],
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((data) => {
-        this.setState(() => ({
-          books: data
-        }))
-      })
+  getAllBooks() {
+    BooksAPI.getAll().then((data) => {
+      this.setState({ books: data })
+    })
   }
 
-  handleShelfChange(book, shelf) {
-    BooksAPI.update(book, shelf)
-      .then((data) => {
-        window.location.reload(false);
-      })
+  componentDidMount() {
+    this.getAllBooks();
+  }
+
+  handleShelfChange = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+      this.getAllBooks();
+    })
   }
 
   render() {
